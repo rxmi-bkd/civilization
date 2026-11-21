@@ -35,7 +35,8 @@ class EntityManager {
     if (freeIndices.isEmpty()) {
       index = generations.size();
       generations.add(0);
-    } else {
+    }
+    else {
       index = freeIndices.pop();
     }
 
@@ -62,8 +63,6 @@ class EntityManager {
    */
   boolean isAlive(Entity entity) {
     int index = entity.index();
-    return index >= 0
-        && index < generations.size()
-        && generations.get(index) == entity.generation();
+    return index >= 0 && index < generations.size() && generations.get(index) == entity.generation();
   }
 }

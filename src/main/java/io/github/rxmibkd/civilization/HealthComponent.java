@@ -6,7 +6,7 @@ package io.github.rxmibkd.civilization;
  * <p>Immutable: systems replace the component with a new instance to change an entity's health.
  *
  * @param current current health points, between 0 and {@code max}
- * @param max maximum health points, strictly positive
+ * @param max     maximum health points, strictly positive
  */
 public record HealthComponent(int current, int max) implements Component {
 

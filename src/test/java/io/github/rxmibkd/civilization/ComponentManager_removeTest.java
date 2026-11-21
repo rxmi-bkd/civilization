@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test;
 
 class ComponentManager_removeTest {
 
-  private record PositionComponent(int x, int y) implements Component {}
+  private record PositionComponent(int x, int y) implements Component {
+  }
 
   private ComponentManager manager;
 

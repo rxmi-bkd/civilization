@@ -7,7 +7,8 @@ package io.github.rxmibkd.civilization;
  * {@code generation} distinguishes successive occupants of the same slot, so that a stale handle
  * can be detected once its entity has been destroyed and the slot reused.
  *
- * @param index slot position of the entity
+ * @param index      slot position of the entity
  * @param generation generation of the slot when the entity was created
  */
-public record Entity(int index, int generation) {}
+public record Entity(int index, int generation) {
+}
