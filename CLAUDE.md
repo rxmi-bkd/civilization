@@ -20,3 +20,9 @@
   - `build`: affect build-related components (build tools, dependencies, project version, ...)
   - `ops`: affect operational aspects (infrastructure/IaC, deployment scripts, CI/CD pipelines, backups, monitoring, recovery procedures, ...)
   - `chore`: tasks like initial commit, modifying `.gitignore`, ...
+
+## Tests
+
+- Each method under test has its own test file (one test class per method, not one per class).
+- Test class: `<ClassName>_<methodName>Test`, in the same package as the class under test (under `src/test/java`).
+- Test method: `should<ExpectedResult>When<Condition>`, in camelCase, so that it reads as a sentence. Omit `When<Condition>` when the behavior is unconditional.
