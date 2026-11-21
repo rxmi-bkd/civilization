@@ -10,8 +10,8 @@ import java.util.Optional;
  * Keeps one {@link ComponentStorage} per component type and routes operations to the right one.
  *
  * <p>Storages are created lazily, the first time a component of a given type is added. Components
- * are matched by their exact class: a component added as {@code HealthComponent} is retrieved with
- * {@code HealthComponent.class}.
+ * are matched by their exact class: a component added as {@code PositionComponent} is retrieved with
+ * {@code PositionComponent.class}.
  */
 class ComponentManager {
 
