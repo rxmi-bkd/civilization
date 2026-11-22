@@ -13,7 +13,7 @@ public interface GameSystem {
    * Runs this system once.
    *
    * @param civilization the civilization to read from and modify
-   * @param deltaTime time elapsed since the previous update, in seconds
+   * @param deltaTime    time elapsed since the previous update, in seconds
    */
   void update(Civilization civilization, double deltaTime);
 }

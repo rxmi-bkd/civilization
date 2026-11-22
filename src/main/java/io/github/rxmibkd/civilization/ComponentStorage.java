@@ -30,7 +30,7 @@ class ComponentStorage<T extends Component> {
   /**
    * Attaches a component to an entity, replacing any component already stored for its slot.
    *
-   * @param entity the entity receiving the component
+   * @param entity    the entity receiving the component
    * @param component the component to attach
    * @throws IllegalArgumentException if the entity index is negative
    */
@@ -49,7 +49,8 @@ class ComponentStorage<T extends Component> {
       sparse.set(index, denseEntities.size());
       denseEntities.add(entity);
       denseComponents.add(component);
-    } else {
+    }
+    else {
       denseEntities.set(position, entity);
       denseComponents.set(position, component);
     }

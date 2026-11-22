@@ -51,9 +51,9 @@ public class Civilization {
   /**
    * Attaches a component to an entity, replacing any component of the same type it already has.
    *
-   * @param entity the entity receiving the component
+   * @param entity    the entity receiving the component
    * @param component the component to attach
-   * @param <T> the component type
+   * @param <T>       the component type
    * @throws IllegalArgumentException if the entity is not alive
    */
   public <T extends Component> void addComponent(Entity entity, T component) {
@@ -67,8 +67,8 @@ public class Civilization {
    * Returns the component of the given type attached to an entity.
    *
    * @param entity the entity to look up
-   * @param type the component type
-   * @param <T> the component type
+   * @param type   the component type
+   * @param <T>    the component type
    * @return the component, or empty if the entity has none of that type
    */
   public <T extends Component> Optional<T> getComponent(Entity entity, Class<T> type) {
@@ -79,7 +79,7 @@ public class Civilization {
    * Checks whether an entity has a component of the given type.
    *
    * @param entity the entity to check
-   * @param type the component type
+   * @param type   the component type
    * @return {@code true} if the entity has a component of that type
    */
   public boolean hasComponent(Entity entity, Class<? extends Component> type) {
@@ -90,7 +90,7 @@ public class Civilization {
    * Detaches the component of the given type from an entity. Does nothing if it has none.
    *
    * @param entity the entity losing the component
-   * @param type the component type
+   * @param type   the component type
    */
   public void removeComponent(Entity entity, Class<? extends Component> type) {
     componentManager.remove(entity, type);

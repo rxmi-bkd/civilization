@@ -41,11 +41,10 @@ class Civilization_updateTest {
     // Arrange
     List<Civilization> civilizations = new ArrayList<>();
     List<Double> deltas = new ArrayList<>();
-    GameSystem system =
-        (w, deltaTime) -> {
-          civilizations.add(w);
-          deltas.add(deltaTime);
-        };
+    GameSystem system = (w, deltaTime) -> {
+      civilizations.add(w);
+      deltas.add(deltaTime);
+    };
     civilization.addSystem(system);
 
     // Act
@@ -64,14 +63,13 @@ class Civilization_updateTest {
     Entity entity = civilization.createEntity();
     HealthComponent health = new HealthComponent(10, 10);
     civilization.addComponent(entity, health);
-    GameSystem damage =
-        (w, deltaTime) -> {
-          for (Entity target : w.query(HealthComponent.class)) {
-            HealthComponent current = w.getComponent(target, HealthComponent.class).get();
-            HealthComponent damaged = new HealthComponent(current.current() - 3, current.max());
-            w.addComponent(target, damaged);
-          }
-        };
+    GameSystem damage = (w, deltaTime) -> {
+      for (Entity target : w.query(HealthComponent.class)) {
+        HealthComponent current = w.getComponent(target, HealthComponent.class).get();
+        HealthComponent damaged = new HealthComponent(current.current() - 3, current.max());
+        w.addComponent(target, damaged);
+      }
+    };
     civilization.addSystem(damage);
 
     // Act
@@ -91,12 +89,11 @@ class Civilization_updateTest {
     HealthComponent health = new HealthComponent(10, 10);
     civilization.addComponent(first, health);
     civilization.addComponent(second, health);
-    GameSystem reaper =
-        (w, deltaTime) -> {
-          for (Entity target : w.query(HealthComponent.class)) {
-            w.destroyEntity(target);
-          }
-        };
+    GameSystem reaper = (w, deltaTime) -> {
+      for (Entity target : w.query(HealthComponent.class)) {
+        w.destroyEntity(target);
+      }
+    };
     civilization.addSystem(reaper);
 
     // Act
