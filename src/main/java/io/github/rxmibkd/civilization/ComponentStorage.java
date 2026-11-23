@@ -32,14 +32,9 @@ class ComponentStorage<T extends Component> {
    *
    * @param entity    the entity receiving the component
    * @param component the component to attach
-   * @throws IllegalArgumentException if the entity index is negative
    */
   void addComponent(Entity entity, T component) {
     int index = entity.index();
-
-    if (index < 0) {
-      throw new IllegalArgumentException("entity index must not be negative: " + index);
-    }
 
     ensureCapacity(index);
 
@@ -130,7 +125,7 @@ class ComponentStorage<T extends Component> {
   private int positionOf(Entity entity) {
     int index = entity.index();
 
-    if (index < 0 || index >= sparse.size()) {
+    if (index >= sparse.size()) {
       return ABSENT;
     }
 

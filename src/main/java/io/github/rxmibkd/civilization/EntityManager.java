@@ -63,6 +63,6 @@ class EntityManager {
    */
   boolean isEntityAlive(Entity entity) {
     int index = entity.index();
-    return index >= 0 && index < generations.size() && generations.get(index) == entity.generation();
+    return index < generations.size() && generations.get(index) == entity.generation();
   }
 }

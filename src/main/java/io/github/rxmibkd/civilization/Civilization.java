@@ -2,6 +2,7 @@ package io.github.rxmibkd.civilization;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -30,8 +31,10 @@ public class Civilization {
    * Destroys an entity and detaches all of its components. Does nothing if the entity is not alive.
    *
    * @param entity the entity to destroy
+   * @throws NullPointerException if the entity is null
    */
   public void deleteEntity(Entity entity) {
+    Objects.requireNonNull(entity, "entity must not be null");
     if (entityManager.isEntityAlive(entity)) {
       componentManager.deleteComponents(entity);
       entityManager.deleteEntity(entity);
@@ -43,8 +46,10 @@ public class Civilization {
    *
    * @param entity the handle to check
    * @return {@code true} if the entity has not been destroyed
+   * @throws NullPointerException if the entity is null
    */
   public boolean isEntityAlive(Entity entity) {
+    Objects.requireNonNull(entity, "entity must not be null");
     return entityManager.isEntityAlive(entity);
   }
 
@@ -54,9 +59,12 @@ public class Civilization {
    * @param entity    the entity receiving the component
    * @param component the component to attach
    * @param <T>       the component type
+   * @throws NullPointerException     if the entity or the component is null
    * @throws IllegalArgumentException if the entity is not alive
    */
   public <T extends Component> void addComponent(Entity entity, T component) {
+    Objects.requireNonNull(entity, "entity must not be null");
+    Objects.requireNonNull(component, "component must not be null");
     if (!entityManager.isEntityAlive(entity)) {
       throw new IllegalArgumentException("entity is not alive: " + entity);
     }
@@ -70,8 +78,11 @@ public class Civilization {
    * @param type   the component type
    * @param <T>    the component type
    * @return the component, or empty if the entity has none of that type
+   * @throws NullPointerException if the entity or the type is null
    */
   public <T extends Component> Optional<T> getComponent(Entity entity, Class<T> type) {
+    Objects.requireNonNull(entity, "entity must not be null");
+    Objects.requireNonNull(type, "type must not be null");
     return componentManager.getComponent(entity, type);
   }
 
@@ -81,8 +92,11 @@ public class Civilization {
    * @param entity the entity to check
    * @param type   the component type
    * @return {@code true} if the entity has a component of that type
+   * @throws NullPointerException if the entity or the type is null
    */
   public boolean hasComponent(Entity entity, Class<? extends Component> type) {
+    Objects.requireNonNull(entity, "entity must not be null");
+    Objects.requireNonNull(type, "type must not be null");
     return componentManager.hasComponent(entity, type);
   }
 
@@ -91,8 +105,11 @@ public class Civilization {
    *
    * @param entity the entity losing the component
    * @param type   the component type
+   * @throws NullPointerException if the entity or the type is null
    */
   public void deleteComponent(Entity entity, Class<? extends Component> type) {
+    Objects.requireNonNull(entity, "entity must not be null");
+    Objects.requireNonNull(type, "type must not be null");
     componentManager.deleteComponent(entity, type);
   }
 
@@ -104,10 +121,15 @@ public class Civilization {
    *
    * @param types the component types an entity must all have
    * @return the matching entities, empty if none match
+   * @throws NullPointerException     if the array or one of its elements is null
    * @throws IllegalArgumentException if no type is given
    */
   @SafeVarargs
   public final List<Entity> query(Class<? extends Component>... types) {
+    Objects.requireNonNull(types, "types must not be null");
+    for (Class<? extends Component> type : types) {
+      Objects.requireNonNull(type, "types must not contain null");
+    }
     return componentManager.query(types);
   }
 
@@ -115,8 +137,10 @@ public class Civilization {
    * Registers a system. Systems run in registration order on each {@link #update(double)}.
    *
    * @param system the system to register
+   * @throws NullPointerException if the system is null
    */
   public void addSystem(GameSystem system) {
+    Objects.requireNonNull(system, "system must not be null");
     systems.add(system);
   }
 
@@ -124,8 +148,10 @@ public class Civilization {
    * Unregisters a system. Does nothing if the system is not registered.
    *
    * @param system the system to unregister
+   * @throws NullPointerException if the system is null
    */
   public void removeSystem(GameSystem system) {
+    Objects.requireNonNull(system, "system must not be null");
     systems.remove(system);
   }
 
@@ -133,8 +159,12 @@ public class Civilization {
    * Runs every registered system once, in registration order.
    *
    * @param deltaTime time elapsed since the previous update, in seconds
+   * @throws IllegalArgumentException if deltaTime is NaN, infinite or negative
    */
   public void update(double deltaTime) {
+    if (Double.isNaN(deltaTime) || Double.isInfinite(deltaTime) || deltaTime < 0) {
+      throw new IllegalArgumentException("deltaTime must be finite and not negative: " + deltaTime);
+    }
     for (GameSystem system : List.copyOf(systems)) {
       system.update(this, deltaTime);
     }
