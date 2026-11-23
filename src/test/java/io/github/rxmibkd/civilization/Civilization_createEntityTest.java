@@ -21,7 +21,7 @@ class Civilization_createEntityTest {
     Entity entity = civilization.createEntity();
 
     // Assert
-    boolean alive = civilization.isAlive(entity);
+    boolean alive = civilization.isEntityAlive(entity);
     assertTrue(alive);
   }
 

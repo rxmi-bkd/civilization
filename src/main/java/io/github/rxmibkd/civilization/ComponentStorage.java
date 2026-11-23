@@ -7,13 +7,13 @@ import java.util.Optional;
 
 /**
  * Stores the components of a single type, using a sparse set.
- *
- * <p>The {@code sparse} list is indexed by entity index and gives the position of the entity's
+ * <br/>
+ * The {@code sparse} list is indexed by entity index and gives the position of the entity's
  * component in the dense lists, or {@link #ABSENT} if there is none. The dense lists are packed and
  * parallel: {@code denseEntities.get(i)} owns {@code denseComponents.get(i)}. This gives O(1)
  * add, get and remove, and iteration over contiguous data.
- *
- * <p>Lookups compare the full {@link Entity}, generation included, so a stale handle never matches
+ * <br/>
+ * Lookups compare the full {@link Entity}, generation included, so a stale handle never matches
  * the component of a later occupant of the same slot.
  *
  * @param <T> the component type held by this storage
@@ -34,7 +34,7 @@ class ComponentStorage<T extends Component> {
    * @param component the component to attach
    * @throws IllegalArgumentException if the entity index is negative
    */
-  void add(Entity entity, T component) {
+  void addComponent(Entity entity, T component) {
     int index = entity.index();
 
     if (index < 0) {
@@ -62,7 +62,7 @@ class ComponentStorage<T extends Component> {
    * @param entity the entity to look up
    * @return the component, or empty if the entity has none
    */
-  Optional<T> get(Entity entity) {
+  Optional<T> getComponent(Entity entity) {
     int position = positionOf(entity);
     return position == ABSENT ? Optional.empty() : Optional.of(denseComponents.get(position));
   }
@@ -73,7 +73,7 @@ class ComponentStorage<T extends Component> {
    * @param entity the entity to check
    * @return {@code true} if the entity has a component
    */
-  boolean has(Entity entity) {
+  boolean hasComponent(Entity entity) {
     return positionOf(entity) != ABSENT;
   }
 
@@ -82,7 +82,7 @@ class ComponentStorage<T extends Component> {
    *
    * @param entity the entity losing its component
    */
-  void remove(Entity entity) {
+  void deleteComponent(Entity entity) {
     int position = positionOf(entity);
 
     if (position == ABSENT) {
@@ -112,13 +112,13 @@ class ComponentStorage<T extends Component> {
 
   /**
    * Returns the entities that have a component in this storage.
-   *
-   * <p>The returned list is a read-only view that reflects later changes to the storage, so copy it
+   * <br/>
+   * The returned list is a read-only view that reflects later changes to the storage, so copy it
    * before adding or removing components while iterating.
    *
    * @return the entities holding a component
    */
-  List<Entity> entities() {
+  List<Entity> getEntities() {
     return Collections.unmodifiableList(denseEntities);
   }
 

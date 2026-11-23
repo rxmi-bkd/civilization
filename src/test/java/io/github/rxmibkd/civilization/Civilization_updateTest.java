@@ -91,7 +91,7 @@ class Civilization_updateTest {
     civilization.addComponent(second, health);
     GameSystem reaper = (w, deltaTime) -> {
       for (Entity target : w.query(HealthComponent.class)) {
-        w.destroyEntity(target);
+        w.deleteEntity(target);
       }
     };
     civilization.addSystem(reaper);
@@ -114,7 +114,7 @@ class Civilization_updateTest {
     civilization.update(1.0);
 
     // Assert
-    boolean alive = civilization.isAlive(entity);
+    boolean alive = civilization.isEntityAlive(entity);
     assertTrue(alive);
   }
 }

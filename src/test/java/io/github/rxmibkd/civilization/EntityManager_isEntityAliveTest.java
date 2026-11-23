@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class EntityManager_isAliveTest {
+class EntityManager_isEntityAliveTest {
 
   private EntityManager manager;
 
@@ -18,10 +18,10 @@ class EntityManager_isAliveTest {
   @Test
   void shouldReturnTrueWhenEntityIsCreated() {
     // Arrange
-    Entity entity = manager.create();
+    Entity entity = manager.createEntity();
 
     // Act
-    boolean alive = manager.isAlive(entity);
+    boolean alive = manager.isEntityAlive(entity);
 
     // Assert
     assertTrue(alive);
@@ -30,11 +30,11 @@ class EntityManager_isAliveTest {
   @Test
   void shouldReturnFalseWhenEntityIsDestroyed() {
     // Arrange
-    Entity entity = manager.create();
-    manager.destroy(entity);
+    Entity entity = manager.createEntity();
+    manager.deleteEntity(entity);
 
     // Act
-    boolean alive = manager.isAlive(entity);
+    boolean alive = manager.isEntityAlive(entity);
 
     // Assert
     assertFalse(alive);
@@ -43,12 +43,12 @@ class EntityManager_isAliveTest {
   @Test
   void shouldReturnFalseWhenHandleIsStaleAfterSlotReuse() {
     // Arrange
-    Entity old = manager.create();
-    manager.destroy(old);
-    manager.create();
+    Entity old = manager.createEntity();
+    manager.deleteEntity(old);
+    manager.createEntity();
 
     // Act
-    boolean alive = manager.isAlive(old);
+    boolean alive = manager.isEntityAlive(old);
 
     // Assert
     assertFalse(alive);
@@ -57,11 +57,11 @@ class EntityManager_isAliveTest {
   @Test
   void shouldReturnFalseWhenIndexIsBeyondCreatedSlots() {
     // Arrange
-    manager.create();
+    manager.createEntity();
     Entity unknown = new Entity(999, 0);
 
     // Act
-    boolean alive = manager.isAlive(unknown);
+    boolean alive = manager.isEntityAlive(unknown);
 
     // Assert
     assertFalse(alive);
@@ -73,7 +73,7 @@ class EntityManager_isAliveTest {
     Entity negative = new Entity(-1, 0);
 
     // Act
-    boolean alive = manager.isAlive(negative);
+    boolean alive = manager.isEntityAlive(negative);
 
     // Assert
     assertFalse(alive);
@@ -82,13 +82,13 @@ class EntityManager_isAliveTest {
   @Test
   void shouldReturnFalseWhenGenerationIsNewerThanSlot() {
     // Arrange
-    Entity entity = manager.create();
+    Entity entity = manager.createEntity();
     int index = entity.index();
     int newerGeneration = entity.generation() + 1;
     Entity future = new Entity(index, newerGeneration);
 
     // Act
-    boolean alive = manager.isAlive(future);
+    boolean alive = manager.isEntityAlive(future);
 
     // Assert
     assertFalse(alive);

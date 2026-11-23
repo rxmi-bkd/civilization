@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ComponentManager_removeAllTest {
+class ComponentManager_deleteComponentsTest {
 
   private record PositionComponent(int x, int y) implements Component {
   }
@@ -24,15 +24,15 @@ class ComponentManager_removeAllTest {
     Entity entity = new Entity(0, 0);
     HealthComponent health = new HealthComponent(10, 10);
     PositionComponent position = new PositionComponent(1, 2);
-    manager.add(entity, health);
-    manager.add(entity, position);
+    manager.addComponent(entity, health);
+    manager.addComponent(entity, position);
 
     // Act
-    manager.removeAll(entity);
+    manager.deleteComponents(entity);
 
     // Assert
-    boolean healthPresent = manager.has(entity, HealthComponent.class);
-    boolean positionPresent = manager.has(entity, PositionComponent.class);
+    boolean healthPresent = manager.hasComponent(entity, HealthComponent.class);
+    boolean positionPresent = manager.hasComponent(entity, PositionComponent.class);
     assertFalse(healthPresent);
     assertFalse(positionPresent);
   }
@@ -43,14 +43,14 @@ class ComponentManager_removeAllTest {
     Entity cleared = new Entity(0, 0);
     Entity other = new Entity(1, 0);
     HealthComponent health = new HealthComponent(10, 10);
-    manager.add(cleared, health);
-    manager.add(other, health);
+    manager.addComponent(cleared, health);
+    manager.addComponent(other, health);
 
     // Act
-    manager.removeAll(cleared);
+    manager.deleteComponents(cleared);
 
     // Assert
-    boolean otherPresent = manager.has(other, HealthComponent.class);
+    boolean otherPresent = manager.hasComponent(other, HealthComponent.class);
     assertTrue(otherPresent);
   }
 
@@ -60,13 +60,13 @@ class ComponentManager_removeAllTest {
     Entity owner = new Entity(0, 0);
     Entity other = new Entity(1, 0);
     HealthComponent health = new HealthComponent(10, 10);
-    manager.add(owner, health);
+    manager.addComponent(owner, health);
 
     // Act
-    manager.removeAll(other);
+    manager.deleteComponents(other);
 
     // Assert
-    boolean ownerPresent = manager.has(owner, HealthComponent.class);
+    boolean ownerPresent = manager.hasComponent(owner, HealthComponent.class);
     assertTrue(ownerPresent);
   }
 }

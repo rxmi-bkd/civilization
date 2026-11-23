@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ComponentStorage_hasTest {
+class ComponentStorage_hasComponentTest {
 
   private ComponentStorage<HealthComponent> storage;
 
@@ -20,10 +20,10 @@ class ComponentStorage_hasTest {
     // Arrange
     Entity entity = new Entity(0, 0);
     HealthComponent health = new HealthComponent(10, 10);
-    storage.add(entity, health);
+    storage.addComponent(entity, health);
 
     // Act
-    boolean result = storage.has(entity);
+    boolean result = storage.hasComponent(entity);
 
     // Assert
     assertTrue(result);
@@ -35,7 +35,7 @@ class ComponentStorage_hasTest {
     Entity entity = new Entity(0, 0);
 
     // Act
-    boolean result = storage.has(entity);
+    boolean result = storage.hasComponent(entity);
 
     // Assert
     assertFalse(result);
@@ -47,10 +47,10 @@ class ComponentStorage_hasTest {
     Entity current = new Entity(0, 1);
     Entity stale = new Entity(0, 0);
     HealthComponent health = new HealthComponent(10, 10);
-    storage.add(current, health);
+    storage.addComponent(current, health);
 
     // Act
-    boolean result = storage.has(stale);
+    boolean result = storage.hasComponent(stale);
 
     // Assert
     assertFalse(result);

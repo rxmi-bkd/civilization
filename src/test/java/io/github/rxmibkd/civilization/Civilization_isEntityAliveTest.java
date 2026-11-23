@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class Civilization_isAliveTest {
+class Civilization_isEntityAliveTest {
 
   private Civilization civilization;
 
@@ -21,7 +21,7 @@ class Civilization_isAliveTest {
     Entity entity = civilization.createEntity();
 
     // Act
-    boolean result = civilization.isAlive(entity);
+    boolean result = civilization.isEntityAlive(entity);
 
     // Assert
     assertTrue(result);
@@ -31,10 +31,10 @@ class Civilization_isAliveTest {
   void shouldReturnFalseWhenEntityIsDestroyed() {
     // Arrange
     Entity entity = civilization.createEntity();
-    civilization.destroyEntity(entity);
+    civilization.deleteEntity(entity);
 
     // Act
-    boolean result = civilization.isAlive(entity);
+    boolean result = civilization.isEntityAlive(entity);
 
     // Assert
     assertFalse(result);

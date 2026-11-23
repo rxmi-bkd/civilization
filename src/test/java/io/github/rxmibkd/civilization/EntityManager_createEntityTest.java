@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class EntityManager_createTest {
+class EntityManager_createEntityTest {
 
   private EntityManager manager;
 
@@ -22,7 +22,7 @@ class EntityManager_createTest {
     Entity expected = new Entity(0, 0);
 
     // Act
-    Entity actual = manager.create();
+    Entity actual = manager.createEntity();
 
     // Assert
     assertEquals(expected, actual);
@@ -33,8 +33,8 @@ class EntityManager_createTest {
     // Arrange
 
     // Act
-    Entity first = manager.create();
-    Entity second = manager.create();
+    Entity first = manager.createEntity();
+    Entity second = manager.createEntity();
 
     // Assert
     int firstIndex = first.index();
@@ -48,23 +48,23 @@ class EntityManager_createTest {
     // Arrange
 
     // Act
-    Entity entity = manager.create();
+    Entity entity = manager.createEntity();
 
     // Assert
-    boolean alive = manager.isAlive(entity);
+    boolean alive = manager.isEntityAlive(entity);
     assertTrue(alive);
   }
 
   @Test
   void shouldReuseSlotWithIncrementedGenerationWhenSlotWasFreed() {
     // Arrange
-    Entity old = manager.create();
-    manager.destroy(old);
+    Entity old = manager.createEntity();
+    manager.deleteEntity(old);
     int expectedIndex = old.index();
     int expectedGeneration = old.generation() + 1;
 
     // Act
-    Entity reused = manager.create();
+    Entity reused = manager.createEntity();
 
     // Assert
     int actualIndex = reused.index();
@@ -76,15 +76,15 @@ class EntityManager_createTest {
   @Test
   void shouldIncrementGenerationEachTimeWhenSlotIsReusedRepeatedly() {
     // Arrange
-    Entity first = manager.create();
-    manager.destroy(first);
-    Entity second = manager.create();
-    manager.destroy(second);
-    Entity third = manager.create();
-    manager.destroy(third);
+    Entity first = manager.createEntity();
+    manager.deleteEntity(first);
+    Entity second = manager.createEntity();
+    manager.deleteEntity(second);
+    Entity third = manager.createEntity();
+    manager.deleteEntity(third);
 
     // Act
-    Entity fourth = manager.create();
+    Entity fourth = manager.createEntity();
 
     // Assert
     int actualIndex = fourth.index();
@@ -96,13 +96,13 @@ class EntityManager_createTest {
   @Test
   void shouldNotHandOutSameSlotTwiceWhenEntityIsDestroyedTwice() {
     // Arrange
-    Entity entity = manager.create();
-    manager.destroy(entity);
-    manager.destroy(entity);
+    Entity entity = manager.createEntity();
+    manager.deleteEntity(entity);
+    manager.deleteEntity(entity);
 
     // Act
-    Entity first = manager.create();
-    Entity second = manager.create();
+    Entity first = manager.createEntity();
+    Entity second = manager.createEntity();
 
     // Assert
     int firstIndex = first.index();

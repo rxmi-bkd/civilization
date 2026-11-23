@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ComponentManager_hasTest {
+class ComponentManager_hasComponentTest {
 
   private record PositionComponent(int x, int y) implements Component {
   }
@@ -23,10 +23,10 @@ class ComponentManager_hasTest {
     // Arrange
     Entity entity = new Entity(0, 0);
     HealthComponent health = new HealthComponent(10, 10);
-    manager.add(entity, health);
+    manager.addComponent(entity, health);
 
     // Act
-    boolean result = manager.has(entity, HealthComponent.class);
+    boolean result = manager.hasComponent(entity, HealthComponent.class);
 
     // Assert
     assertTrue(result);
@@ -38,7 +38,7 @@ class ComponentManager_hasTest {
     Entity entity = new Entity(0, 0);
 
     // Act
-    boolean result = manager.has(entity, HealthComponent.class);
+    boolean result = manager.hasComponent(entity, HealthComponent.class);
 
     // Assert
     assertFalse(result);
@@ -49,10 +49,10 @@ class ComponentManager_hasTest {
     // Arrange
     Entity entity = new Entity(0, 0);
     PositionComponent position = new PositionComponent(1, 2);
-    manager.add(entity, position);
+    manager.addComponent(entity, position);
 
     // Act
-    boolean result = manager.has(entity, HealthComponent.class);
+    boolean result = manager.hasComponent(entity, HealthComponent.class);
 
     // Assert
     assertFalse(result);

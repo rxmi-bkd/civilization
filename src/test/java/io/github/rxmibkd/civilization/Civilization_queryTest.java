@@ -38,7 +38,7 @@ class Civilization_queryTest {
     Entity entity = civilization.createEntity();
     HealthComponent health = new HealthComponent(10, 10);
     civilization.addComponent(entity, health);
-    civilization.destroyEntity(entity);
+    civilization.deleteEntity(entity);
 
     // Act
     List<Entity> result = civilization.query(HealthComponent.class);

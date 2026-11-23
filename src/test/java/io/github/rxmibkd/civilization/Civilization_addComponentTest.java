@@ -36,7 +36,7 @@ class Civilization_addComponentTest {
     // Arrange
     Entity entity = civilization.createEntity();
     HealthComponent health = new HealthComponent(10, 10);
-    civilization.destroyEntity(entity);
+    civilization.deleteEntity(entity);
 
     // Act & Assert
     assertThrows(IllegalArgumentException.class, () -> civilization.addComponent(entity, health));

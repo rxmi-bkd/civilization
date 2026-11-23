@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ComponentStorage_getTest {
+class ComponentStorage_getComponentTest {
 
   private ComponentStorage<HealthComponent> storage;
 
@@ -21,10 +21,10 @@ class ComponentStorage_getTest {
     // Arrange
     Entity entity = new Entity(3, 0);
     HealthComponent health = new HealthComponent(10, 10);
-    storage.add(entity, health);
+    storage.addComponent(entity, health);
 
     // Act
-    Optional<HealthComponent> result = storage.get(entity);
+    Optional<HealthComponent> result = storage.getComponent(entity);
 
     // Assert
     Optional<HealthComponent> expected = Optional.of(health);
@@ -37,7 +37,7 @@ class ComponentStorage_getTest {
     Entity entity = new Entity(3, 0);
 
     // Act
-    Optional<HealthComponent> result = storage.get(entity);
+    Optional<HealthComponent> result = storage.getComponent(entity);
 
     // Assert
     boolean present = result.isPresent();
@@ -50,10 +50,10 @@ class ComponentStorage_getTest {
     Entity current = new Entity(0, 1);
     Entity stale = new Entity(0, 0);
     HealthComponent health = new HealthComponent(10, 10);
-    storage.add(current, health);
+    storage.addComponent(current, health);
 
     // Act
-    Optional<HealthComponent> result = storage.get(stale);
+    Optional<HealthComponent> result = storage.getComponent(stale);
 
     // Assert
     boolean present = result.isPresent();
@@ -66,7 +66,7 @@ class ComponentStorage_getTest {
     Entity entity = new Entity(-1, 0);
 
     // Act
-    Optional<HealthComponent> result = storage.get(entity);
+    Optional<HealthComponent> result = storage.getComponent(entity);
 
     // Assert
     boolean present = result.isPresent();

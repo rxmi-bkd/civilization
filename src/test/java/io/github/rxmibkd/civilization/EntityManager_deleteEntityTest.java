@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class EntityManager_destroyTest {
+class EntityManager_deleteEntityTest {
 
   private EntityManager manager;
 
@@ -18,70 +18,70 @@ class EntityManager_destroyTest {
   @Test
   void shouldMakeEntityNoLongerAliveWhenEntityIsAlive() {
     // Arrange
-    Entity entity = manager.create();
+    Entity entity = manager.createEntity();
 
     // Act
-    manager.destroy(entity);
+    manager.deleteEntity(entity);
 
     // Assert
-    boolean alive = manager.isAlive(entity);
+    boolean alive = manager.isEntityAlive(entity);
     assertFalse(alive);
   }
 
   @Test
   void shouldKeepOtherEntitiesAliveWhenEntityIsDestroyed() {
     // Arrange
-    Entity first = manager.create();
-    Entity second = manager.create();
+    Entity first = manager.createEntity();
+    Entity second = manager.createEntity();
 
     // Act
-    manager.destroy(first);
+    manager.deleteEntity(first);
 
     // Assert
-    boolean secondAlive = manager.isAlive(second);
+    boolean secondAlive = manager.isEntityAlive(second);
     assertTrue(secondAlive);
   }
 
   @Test
   void shouldDoNothingWhenEntityIsAlreadyDestroyed() {
     // Arrange
-    Entity entity = manager.create();
-    manager.destroy(entity);
+    Entity entity = manager.createEntity();
+    manager.deleteEntity(entity);
 
     // Act
-    manager.destroy(entity);
+    manager.deleteEntity(entity);
 
     // Assert
-    boolean alive = manager.isAlive(entity);
+    boolean alive = manager.isEntityAlive(entity);
     assertFalse(alive);
   }
 
   @Test
   void shouldKeepCurrentOccupantAliveWhenStaleHandleOfReusedSlotIsDestroyed() {
     // Arrange
-    Entity old = manager.create();
-    manager.destroy(old);
-    Entity current = manager.create();
+    Entity old = manager.createEntity();
+    manager.deleteEntity(old);
+    Entity current = manager.createEntity();
 
     // Act
-    manager.destroy(old);
+    manager.deleteEntity(old);
 
     // Assert
-    boolean currentAlive = manager.isAlive(current);
+    boolean currentAlive = manager.isEntityAlive(current);
     assertTrue(currentAlive);
   }
 
   @Test
   void shouldDoNothingWhenEntityIsUnknown() {
     // Arrange
-    Entity alive = manager.create();
+    Entity alive = manager.createEntity();
     Entity unknown = new Entity(999, 0);
 
     // Act
-    manager.destroy(unknown);
+    manager.deleteEntity(unknown);
 
     // Assert
-    boolean aliveStillAlive = manager.isAlive(alive);
+    boolean aliveStillAlive = manager.isEntityAlive(alive);
     assertTrue(aliveStillAlive);
   }
 }
