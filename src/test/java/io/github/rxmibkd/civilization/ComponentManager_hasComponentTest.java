@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ComponentManager_hasTest {
+class ComponentManager_hasComponentTest {
 
   private record PositionComponent(int x, int y) implements Component {
   }

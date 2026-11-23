@@ -8,7 +8,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ComponentStorage_removeTest {
+class ComponentStorage_deleteComponentTest {
 
   private ComponentStorage<HealthComponent> storage;
 

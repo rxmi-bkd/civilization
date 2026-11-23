@@ -7,7 +7,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class ComponentManager_getTest {
+class ComponentManager_getComponentTest {
 
   private record PositionComponent(int x, int y) implements Component {
   }
