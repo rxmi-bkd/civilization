@@ -1,0 +1,28 @@
+# Project rules
+
+## Branch names
+
+- Format: `<type>/<short-kebab-case-description>`
+- `<type>` is one of the commit types listed below (`feat`, `fix`, `refactor`, `perf`, `style`, `test`, `docs`, `build`, `ops`, `chore`), chosen to match the main purpose of the branch.
+- Description: lowercase, words separated by hyphens, concise.
+
+## Commit messages
+
+- Format: `<type>: <description>`
+- Allowed types:
+  - `feat`: add, adjust or remove a feature to/of/from the API
+  - `fix`: fix an API bug of a preceded `feat` commit
+  - `refactor`: rewrite or restructure code without altering API
+  - `perf`: special type of `refactor` that specifically improves performance
+  - `style`: code style changes (white-space, formatting, missing semi-colons) that do not affect behavior
+  - `test`: add missing tests or correct existing ones
+  - `docs`: exclusively affect documentation
+  - `build`: affect build-related components (build tools, dependencies, project version, ...)
+  - `ops`: affect operational aspects (infrastructure/IaC, deployment scripts, CI/CD pipelines, backups, monitoring, recovery procedures, ...)
+  - `chore`: tasks like initial commit, modifying `.gitignore`, ...
+
+## Tests
+
+- Each method under test has its own test file (one test class per method, not one per class).
+- Test class: `<ClassName>_<methodName>Test`, in the same package as the class under test (under `src/test/java`).
+- Test method: `should<ExpectedResult>When<Condition>`, in camelCase, so that it reads as a sentence. Omit `When<Condition>` when the behavior is unconditional.

@@ -1,0 +1,181 @@
+package io.github.rxmibkd.civilization;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+/**
+ * Entry point of the entity component system.
+ * <br/>
+ * Owns an {@link EntityManager} and a {@link ComponentManager} and keeps them consistent: an
+ * entity can only receive components while it is alive, and destroying an entity also detaches all
+ * of its components. Also runs the registered {@link GameSystem}s.
+ */
+public class Civilization {
+
+  private static final String ENTITY_NULL_MESSAGE = "entity must not be null";
+  private static final String COMPONENT_NULL_MESSAGE = "component must not be null";
+  private static final String TYPE_NULL_MESSAGE = "type must not be null";
+  private static final String TYPES_NULL_MESSAGE = "types must not be null";
+  private static final String TYPES_CONTAIN_NULL_MESSAGE = "types must not contain null";
+  private static final String SYSTEM_NULL_MESSAGE = "system must not be null";
+  private static final String ENTITY_NOT_ALIVE_MESSAGE = "entity is not alive: ";
+  private static final String INVALID_DELTA_TIME_MESSAGE = "deltaTime must be finite and not negative: ";
+
+  private final EntityManager entityManager = new EntityManager();
+  private final ComponentManager componentManager = new ComponentManager();
+  private final List<GameSystem> systems = new ArrayList<>();
+
+  /**
+   * Creates a new entity.
+   *
+   * @return a handle to the new entity
+   */
+  public Entity createEntity() {
+    return entityManager.createEntity();
+  }
+
+  /**
+   * Destroys an entity and detaches all of its components. Does nothing if the entity is not alive.
+   *
+   * @param entity the entity to destroy
+   * @throws NullPointerException if the entity is null
+   */
+  public void deleteEntity(Entity entity) {
+    Objects.requireNonNull(entity, ENTITY_NULL_MESSAGE);
+    if (entityManager.isEntityAlive(entity)) {
+      componentManager.deleteComponents(entity);
+      entityManager.deleteEntity(entity);
+    }
+  }
+
+  /**
+   * Checks whether a handle still refers to a living entity.
+   *
+   * @param entity the handle to check
+   * @return {@code true} if the entity has not been destroyed
+   * @throws NullPointerException if the entity is null
+   */
+  public boolean isEntityAlive(Entity entity) {
+    Objects.requireNonNull(entity, ENTITY_NULL_MESSAGE);
+    return entityManager.isEntityAlive(entity);
+  }
+
+  /**
+   * Attaches a component to an entity, replacing any component of the same type it already has.
+   *
+   * @param entity    the entity receiving the component
+   * @param component the component to attach
+   * @param <T>       the component type
+   * @throws NullPointerException     if the entity or the component is null
+   * @throws IllegalArgumentException if the entity is not alive
+   */
+  public <T extends Component> void addComponent(Entity entity, T component) {
+    Objects.requireNonNull(entity, ENTITY_NULL_MESSAGE);
+    Objects.requireNonNull(component, COMPONENT_NULL_MESSAGE);
+    if (!entityManager.isEntityAlive(entity)) {
+      throw new IllegalArgumentException(ENTITY_NOT_ALIVE_MESSAGE + entity);
+    }
+    componentManager.addComponent(entity, component);
+  }
+
+  /**
+   * Returns the component of the given type attached to an entity.
+   *
+   * @param entity the entity to look up
+   * @param type   the component type
+   * @param <T>    the component type
+   * @return the component, or empty if the entity has none of that type
+   * @throws NullPointerException if the entity or the type is null
+   */
+  public <T extends Component> Optional<T> getComponent(Entity entity, Class<T> type) {
+    Objects.requireNonNull(entity, ENTITY_NULL_MESSAGE);
+    Objects.requireNonNull(type, TYPE_NULL_MESSAGE);
+    return componentManager.getComponent(entity, type);
+  }
+
+  /**
+   * Checks whether an entity has a component of the given type.
+   *
+   * @param entity the entity to check
+   * @param type   the component type
+   * @return {@code true} if the entity has a component of that type
+   * @throws NullPointerException if the entity or the type is null
+   */
+  public boolean hasComponent(Entity entity, Class<? extends Component> type) {
+    Objects.requireNonNull(entity, ENTITY_NULL_MESSAGE);
+    Objects.requireNonNull(type, TYPE_NULL_MESSAGE);
+    return componentManager.hasComponent(entity, type);
+  }
+
+  /**
+   * Detaches the component of the given type from an entity. Does nothing if it has none.
+   *
+   * @param entity the entity losing the component
+   * @param type   the component type
+   * @throws NullPointerException if the entity or the type is null
+   */
+  public void deleteComponent(Entity entity, Class<? extends Component> type) {
+    Objects.requireNonNull(entity, ENTITY_NULL_MESSAGE);
+    Objects.requireNonNull(type, TYPE_NULL_MESSAGE);
+    componentManager.deleteComponent(entity, type);
+  }
+
+  /**
+   * Finds the living entities that have a component of every given type.
+   * <br/>
+   * The result is a snapshot, so systems can safely add or remove components, or destroy
+   * entities, while iterating over it.
+   *
+   * @param types the component types an entity must all have
+   * @return the matching entities, empty if none match
+   * @throws NullPointerException     if the array or one of its elements is null
+   * @throws IllegalArgumentException if no type is given
+   */
+  @SafeVarargs
+  public final List<Entity> query(Class<? extends Component>... types) {
+    Objects.requireNonNull(types, TYPES_NULL_MESSAGE);
+    for (Class<? extends Component> type : types) {
+      Objects.requireNonNull(type, TYPES_CONTAIN_NULL_MESSAGE);
+    }
+    return componentManager.query(types);
+  }
+
+  /**
+   * Registers a system. Systems run in registration order on each {@link #update(double)}.
+   *
+   * @param system the system to register
+   * @throws NullPointerException if the system is null
+   */
+  public void addSystem(GameSystem system) {
+    Objects.requireNonNull(system, SYSTEM_NULL_MESSAGE);
+    systems.add(system);
+  }
+
+  /**
+   * Unregisters a system. Does nothing if the system is not registered.
+   *
+   * @param system the system to unregister
+   * @throws NullPointerException if the system is null
+   */
+  public void removeSystem(GameSystem system) {
+    Objects.requireNonNull(system, SYSTEM_NULL_MESSAGE);
+    systems.remove(system);
+  }
+
+  /**
+   * Runs every registered system once, in registration order.
+   *
+   * @param deltaTime time elapsed since the previous update, in seconds
+   * @throws IllegalArgumentException if deltaTime is NaN, infinite or negative
+   */
+  public void update(double deltaTime) {
+    if (Double.isNaN(deltaTime) || Double.isInfinite(deltaTime) || deltaTime < 0) {
+      throw new IllegalArgumentException(INVALID_DELTA_TIME_MESSAGE + deltaTime);
+    }
+    for (GameSystem system : List.copyOf(systems)) {
+      system.update(this, deltaTime);
+    }
+  }
+}
