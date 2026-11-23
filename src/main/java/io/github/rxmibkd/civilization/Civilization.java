@@ -121,6 +121,15 @@ public class Civilization {
   }
 
   /**
+   * Unregisters a system. Does nothing if the system is not registered.
+   *
+   * @param system the system to unregister
+   */
+  public void removeSystem(GameSystem system) {
+    systems.remove(system);
+  }
+
+  /**
    * Runs every registered system once, in registration order.
    *
    * @param deltaTime time elapsed since the previous update, in seconds
