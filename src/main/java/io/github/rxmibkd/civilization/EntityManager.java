@@ -7,8 +7,8 @@ import java.util.List;
 
 /**
  * Creates and destroys entities, recycling slots and tracking their generations.
- *
- * <p>Destroying an entity increments the generation of its slot, which invalidates every handle
+ * <br/>
+ * Destroying an entity increments the generation of its slot, which invalidates every handle
  * previously issued for that slot.
  */
 class EntityManager {

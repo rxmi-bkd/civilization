@@ -6,8 +6,8 @@ import java.util.Optional;
 
 /**
  * Entry point of the entity component system.
- *
- * <p>Owns an {@link EntityManager} and a {@link ComponentManager} and keeps them consistent: an
+ * <br/>
+ * Owns an {@link EntityManager} and a {@link ComponentManager} and keeps them consistent: an
  * entity can only receive components while it is alive, and destroying an entity also detaches all
  * of its components. Also runs the registered {@link GameSystem}s.
  */
@@ -98,8 +98,8 @@ public class Civilization {
 
   /**
    * Finds the living entities that have a component of every given type.
-   *
-   * <p>The result is a snapshot, so systems can safely add or remove components, or destroy
+   * <br/>
+   * The result is a snapshot, so systems can safely add or remove components, or destroy
    * entities, while iterating over it.
    *
    * @param types the component types an entity must all have

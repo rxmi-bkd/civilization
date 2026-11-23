@@ -8,8 +8,8 @@ import java.util.Optional;
 
 /**
  * Keeps one {@link ComponentStorage} per component type and routes operations to the right one.
- *
- * <p>Storages are created lazily, the first time a component of a given type is added. Components
+ * <br/>
+ * Storages are created lazily, the first time a component of a given type is added. Components
  * are matched by their exact class: a component added as {@code PositionComponent} is retrieved with
  * {@code PositionComponent.class}.
  */
@@ -87,7 +87,8 @@ class ComponentManager {
 
   /**
    * Finds the entities that have a component of every given type.
-   * <p>Only the smallest of the matching storages is walked, so the cost depends on the rarest
+   * <br/>
+   * Only the smallest of the matching storages is walked, so the cost depends on the rarest
    * component rather than on the number of entities. The result is a snapshot: components can be
    * added or removed while iterating over it.
    *

@@ -2,8 +2,8 @@ package io.github.rxmibkd.civilization;
 
 /**
  * Logic of the entity component system.
- *
- * <p>A system holds no state about entities. On each update it queries the {@link Civilization} for the
+ * <br/>
+ * A system holds no state about entities. On each update it queries the {@link Civilization} for the
  * entities that have the components it cares about and acts on them.
  */
 @FunctionalInterface
