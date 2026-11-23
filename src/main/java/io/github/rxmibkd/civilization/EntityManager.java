@@ -29,7 +29,7 @@ class EntityManager {
    *
    * @return a handle to the new entity
    */
-  Entity create() {
+  Entity createEntity() {
     int index;
 
     if (freeIndices.isEmpty()) {
@@ -48,8 +48,8 @@ class EntityManager {
    *
    * @param entity the entity to destroy
    */
-  void destroy(Entity entity) {
-    if (isAlive(entity)) {
+  void deleteEntity(Entity entity) {
+    if (isEntityAlive(entity)) {
       generations.set(entity.index(), entity.generation() + 1);
       freeIndices.push(entity.index());
     }
@@ -61,7 +61,7 @@ class EntityManager {
    * @param entity the handle to check
    * @return {@code true} if the entity has not been destroyed
    */
-  boolean isAlive(Entity entity) {
+  boolean isEntityAlive(Entity entity) {
     int index = entity.index();
     return index >= 0 && index < generations.size() && generations.get(index) == entity.generation();
   }

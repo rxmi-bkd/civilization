@@ -28,9 +28,9 @@ class ComponentManager_queryTest {
     Entity third = new Entity(2, 0);
     HealthComponent health = new HealthComponent(10, 10);
     PositionComponent position = new PositionComponent(1, 2);
-    manager.add(first, health);
-    manager.add(second, position);
-    manager.add(third, health);
+    manager.addComponent(first, health);
+    manager.addComponent(second, position);
+    manager.addComponent(third, health);
 
     // Act
     List<Entity> result = manager.query(HealthComponent.class);
@@ -48,10 +48,10 @@ class ComponentManager_queryTest {
     Entity positionOnly = new Entity(2, 0);
     HealthComponent health = new HealthComponent(10, 10);
     PositionComponent position = new PositionComponent(1, 2);
-    manager.add(both, health);
-    manager.add(both, position);
-    manager.add(healthOnly, health);
-    manager.add(positionOnly, position);
+    manager.addComponent(both, health);
+    manager.addComponent(both, position);
+    manager.addComponent(healthOnly, health);
+    manager.addComponent(positionOnly, position);
 
     // Act
     List<Entity> result = manager.query(HealthComponent.class, PositionComponent.class);
@@ -66,7 +66,7 @@ class ComponentManager_queryTest {
     // Arrange
     Entity entity = new Entity(0, 0);
     HealthComponent health = new HealthComponent(10, 10);
-    manager.add(entity, health);
+    manager.addComponent(entity, health);
 
     // Act
     List<Entity> result = manager.query(HealthComponent.class, PositionComponent.class);
@@ -83,8 +83,8 @@ class ComponentManager_queryTest {
     Entity positionOnly = new Entity(1, 0);
     HealthComponent health = new HealthComponent(10, 10);
     PositionComponent position = new PositionComponent(1, 2);
-    manager.add(healthOnly, health);
-    manager.add(positionOnly, position);
+    manager.addComponent(healthOnly, health);
+    manager.addComponent(positionOnly, position);
 
     // Act
     List<Entity> result = manager.query(HealthComponent.class, PositionComponent.class);
@@ -99,11 +99,11 @@ class ComponentManager_queryTest {
     // Arrange
     Entity entity = new Entity(0, 0);
     HealthComponent health = new HealthComponent(10, 10);
-    manager.add(entity, health);
+    manager.addComponent(entity, health);
     List<Entity> result = manager.query(HealthComponent.class);
 
     // Act
-    manager.remove(entity, HealthComponent.class);
+    manager.deleteComponent(entity, HealthComponent.class);
 
     // Assert
     List<Entity> expected = List.of(entity);

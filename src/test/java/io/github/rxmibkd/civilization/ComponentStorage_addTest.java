@@ -24,10 +24,10 @@ class ComponentStorage_addTest {
     HealthComponent health = new HealthComponent(10, 10);
 
     // Act
-    storage.add(entity, health);
+    storage.addComponent(entity, health);
 
     // Assert
-    Optional<HealthComponent> result = storage.get(entity);
+    Optional<HealthComponent> result = storage.getComponent(entity);
     Optional<HealthComponent> expected = Optional.of(health);
     assertEquals(expected, result);
   }
@@ -38,13 +38,13 @@ class ComponentStorage_addTest {
     Entity entity = new Entity(0, 0);
     HealthComponent original = new HealthComponent(10, 10);
     HealthComponent replacement = new HealthComponent(5, 10);
-    storage.add(entity, original);
+    storage.addComponent(entity, original);
 
     // Act
-    storage.add(entity, replacement);
+    storage.addComponent(entity, replacement);
 
     // Assert
-    Optional<HealthComponent> result = storage.get(entity);
+    Optional<HealthComponent> result = storage.getComponent(entity);
     Optional<HealthComponent> expected = Optional.of(replacement);
     int size = storage.size();
     assertEquals(expected, result);
@@ -58,15 +58,15 @@ class ComponentStorage_addTest {
     Entity current = new Entity(0, 1);
     HealthComponent oldHealth = new HealthComponent(10, 10);
     HealthComponent health = new HealthComponent(7, 10);
-    storage.add(old, oldHealth);
+    storage.addComponent(old, oldHealth);
 
     // Act
-    storage.add(current, health);
+    storage.addComponent(current, health);
 
     // Assert
-    Optional<HealthComponent> currentResult = storage.get(current);
+    Optional<HealthComponent> currentResult = storage.getComponent(current);
     Optional<HealthComponent> expected = Optional.of(health);
-    boolean oldPresent = storage.has(old);
+    boolean oldPresent = storage.hasComponent(old);
     int size = storage.size();
     assertEquals(expected, currentResult);
     assertFalse(oldPresent);
@@ -80,10 +80,10 @@ class ComponentStorage_addTest {
     HealthComponent health = new HealthComponent(10, 10);
 
     // Act
-    storage.add(entity, health);
+    storage.addComponent(entity, health);
 
     // Assert
-    Optional<HealthComponent> result = storage.get(entity);
+    Optional<HealthComponent> result = storage.getComponent(entity);
     Optional<HealthComponent> expected = Optional.of(health);
     assertEquals(expected, result);
   }
@@ -95,6 +95,6 @@ class ComponentStorage_addTest {
     HealthComponent health = new HealthComponent(10, 10);
 
     // Act & Assert
-    assertThrows(IllegalArgumentException.class, () -> storage.add(entity, health));
+    assertThrows(IllegalArgumentException.class, () -> storage.addComponent(entity, health));
   }
 }

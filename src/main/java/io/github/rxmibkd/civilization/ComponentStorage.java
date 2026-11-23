@@ -34,7 +34,7 @@ class ComponentStorage<T extends Component> {
    * @param component the component to attach
    * @throws IllegalArgumentException if the entity index is negative
    */
-  void add(Entity entity, T component) {
+  void addComponent(Entity entity, T component) {
     int index = entity.index();
 
     if (index < 0) {
@@ -62,7 +62,7 @@ class ComponentStorage<T extends Component> {
    * @param entity the entity to look up
    * @return the component, or empty if the entity has none
    */
-  Optional<T> get(Entity entity) {
+  Optional<T> getComponent(Entity entity) {
     int position = positionOf(entity);
     return position == ABSENT ? Optional.empty() : Optional.of(denseComponents.get(position));
   }
@@ -73,7 +73,7 @@ class ComponentStorage<T extends Component> {
    * @param entity the entity to check
    * @return {@code true} if the entity has a component
    */
-  boolean has(Entity entity) {
+  boolean hasComponent(Entity entity) {
     return positionOf(entity) != ABSENT;
   }
 
@@ -82,7 +82,7 @@ class ComponentStorage<T extends Component> {
    *
    * @param entity the entity losing its component
    */
-  void remove(Entity entity) {
+  void deleteComponent(Entity entity) {
     int position = positionOf(entity);
 
     if (position == ABSENT) {
@@ -118,7 +118,7 @@ class ComponentStorage<T extends Component> {
    *
    * @return the entities holding a component
    */
-  List<Entity> entities() {
+  List<Entity> getEntities() {
     return Collections.unmodifiableList(denseEntities);
   }
 

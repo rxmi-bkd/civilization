@@ -22,13 +22,13 @@ class ComponentStorage_removeTest {
     // Arrange
     Entity entity = new Entity(0, 0);
     HealthComponent health = new HealthComponent(10, 10);
-    storage.add(entity, health);
+    storage.addComponent(entity, health);
 
     // Act
-    storage.remove(entity);
+    storage.deleteComponent(entity);
 
     // Assert
-    boolean present = storage.has(entity);
+    boolean present = storage.hasComponent(entity);
     int size = storage.size();
     assertFalse(present);
     assertEquals(0, size);
@@ -43,16 +43,16 @@ class ComponentStorage_removeTest {
     HealthComponent firstHealth = new HealthComponent(1, 10);
     HealthComponent secondHealth = new HealthComponent(2, 10);
     HealthComponent thirdHealth = new HealthComponent(3, 10);
-    storage.add(first, firstHealth);
-    storage.add(second, secondHealth);
-    storage.add(third, thirdHealth);
+    storage.addComponent(first, firstHealth);
+    storage.addComponent(second, secondHealth);
+    storage.addComponent(third, thirdHealth);
 
     // Act
-    storage.remove(first);
+    storage.deleteComponent(first);
 
     // Assert
-    Optional<HealthComponent> secondResult = storage.get(second);
-    Optional<HealthComponent> thirdResult = storage.get(third);
+    Optional<HealthComponent> secondResult = storage.getComponent(second);
+    Optional<HealthComponent> thirdResult = storage.getComponent(third);
     Optional<HealthComponent> expectedSecond = Optional.of(secondHealth);
     Optional<HealthComponent> expectedThird = Optional.of(thirdHealth);
     int size = storage.size();
@@ -67,14 +67,14 @@ class ComponentStorage_removeTest {
     Entity entity = new Entity(0, 0);
     HealthComponent original = new HealthComponent(10, 10);
     HealthComponent health = new HealthComponent(4, 10);
-    storage.add(entity, original);
-    storage.remove(entity);
+    storage.addComponent(entity, original);
+    storage.deleteComponent(entity);
 
     // Act
-    storage.add(entity, health);
+    storage.addComponent(entity, health);
 
     // Assert
-    Optional<HealthComponent> result = storage.get(entity);
+    Optional<HealthComponent> result = storage.getComponent(entity);
     Optional<HealthComponent> expected = Optional.of(health);
     assertEquals(expected, result);
   }
@@ -85,13 +85,13 @@ class ComponentStorage_removeTest {
     Entity present = new Entity(0, 0);
     Entity absent = new Entity(5, 0);
     HealthComponent health = new HealthComponent(10, 10);
-    storage.add(present, health);
+    storage.addComponent(present, health);
 
     // Act
-    storage.remove(absent);
+    storage.deleteComponent(absent);
 
     // Assert
-    boolean presentStillThere = storage.has(present);
+    boolean presentStillThere = storage.hasComponent(present);
     int size = storage.size();
     assertTrue(presentStillThere);
     assertEquals(1, size);
@@ -103,13 +103,13 @@ class ComponentStorage_removeTest {
     Entity current = new Entity(0, 1);
     Entity stale = new Entity(0, 0);
     HealthComponent health = new HealthComponent(10, 10);
-    storage.add(current, health);
+    storage.addComponent(current, health);
 
     // Act
-    storage.remove(stale);
+    storage.deleteComponent(stale);
 
     // Assert
-    boolean currentPresent = storage.has(current);
+    boolean currentPresent = storage.hasComponent(current);
     assertTrue(currentPresent);
   }
 }

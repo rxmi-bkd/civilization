@@ -26,10 +26,10 @@ class ComponentManager_addTest {
     HealthComponent health = new HealthComponent(10, 10);
 
     // Act
-    manager.add(entity, health);
+    manager.addComponent(entity, health);
 
     // Assert
-    Optional<HealthComponent> result = manager.get(entity, HealthComponent.class);
+    Optional<HealthComponent> result = manager.getComponent(entity, HealthComponent.class);
     Optional<HealthComponent> expected = Optional.of(health);
     assertEquals(expected, result);
   }
@@ -40,13 +40,13 @@ class ComponentManager_addTest {
     Entity entity = new Entity(0, 0);
     HealthComponent original = new HealthComponent(10, 10);
     HealthComponent replacement = new HealthComponent(5, 10);
-    manager.add(entity, original);
+    manager.addComponent(entity, original);
 
     // Act
-    manager.add(entity, replacement);
+    manager.addComponent(entity, replacement);
 
     // Assert
-    Optional<HealthComponent> result = manager.get(entity, HealthComponent.class);
+    Optional<HealthComponent> result = manager.getComponent(entity, HealthComponent.class);
     Optional<HealthComponent> expected = Optional.of(replacement);
     assertEquals(expected, result);
   }
@@ -59,12 +59,12 @@ class ComponentManager_addTest {
     PositionComponent position = new PositionComponent(1, 2);
 
     // Act
-    manager.add(entity, health);
-    manager.add(entity, position);
+    manager.addComponent(entity, health);
+    manager.addComponent(entity, position);
 
     // Assert
-    Optional<HealthComponent> healthResult = manager.get(entity, HealthComponent.class);
-    Optional<PositionComponent> positionResult = manager.get(entity, PositionComponent.class);
+    Optional<HealthComponent> healthResult = manager.getComponent(entity, HealthComponent.class);
+    Optional<PositionComponent> positionResult = manager.getComponent(entity, PositionComponent.class);
     Optional<HealthComponent> expectedHealth = Optional.of(health);
     Optional<PositionComponent> expectedPosition = Optional.of(position);
     assertEquals(expectedHealth, healthResult);
@@ -78,6 +78,6 @@ class ComponentManager_addTest {
     HealthComponent health = new HealthComponent(10, 10);
 
     // Act & Assert
-    assertThrows(IllegalArgumentException.class, () -> manager.add(entity, health));
+    assertThrows(IllegalArgumentException.class, () -> manager.addComponent(entity, health));
   }
 }

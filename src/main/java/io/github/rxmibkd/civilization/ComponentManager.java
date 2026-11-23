@@ -30,10 +30,10 @@ class ComponentManager {
    * @throws IllegalArgumentException if the entity index is negative
    */
   @SuppressWarnings("unchecked")
-  <T extends Component> void add(Entity entity, T component) {
+  <T extends Component> void addComponent(Entity entity, T component) {
     Class<T> type = (Class<T>) component.getClass();
     ComponentStorage<T> storage = (ComponentStorage<T>) storages.computeIfAbsent(type, key -> new ComponentStorage<>());
-    storage.add(entity, component);
+    storage.addComponent(entity, component);
   }
 
   /**
@@ -44,9 +44,9 @@ class ComponentManager {
    * @param <T>    the component type
    * @return the component, or empty if the entity has none of that type
    */
-  <T extends Component> Optional<T> get(Entity entity, Class<T> type) {
+  <T extends Component> Optional<T> getComponent(Entity entity, Class<T> type) {
     ComponentStorage<T> storage = storageOf(type);
-    return storage == null ? Optional.empty() : storage.get(entity);
+    return storage == null ? Optional.empty() : storage.getComponent(entity);
   }
 
   /**
@@ -56,9 +56,9 @@ class ComponentManager {
    * @param type   the component type
    * @return {@code true} if the entity has a component of that type
    */
-  boolean has(Entity entity, Class<? extends Component> type) {
+  boolean hasComponent(Entity entity, Class<? extends Component> type) {
     ComponentStorage<? extends Component> storage = storages.get(type);
-    return storage != null && storage.has(entity);
+    return storage != null && storage.hasComponent(entity);
   }
 
   /**
@@ -67,10 +67,10 @@ class ComponentManager {
    * @param entity the entity losing the component
    * @param type   the component type
    */
-  void remove(Entity entity, Class<? extends Component> type) {
+  void deleteComponent(Entity entity, Class<? extends Component> type) {
     ComponentStorage<? extends Component> storage = storages.get(type);
     if (storage != null) {
-      storage.remove(entity);
+      storage.deleteComponent(entity);
     }
   }
 
@@ -79,9 +79,9 @@ class ComponentManager {
    *
    * @param entity the entity losing its components
    */
-  void removeAll(Entity entity) {
+  void deleteComponents(Entity entity) {
     for (ComponentStorage<? extends Component> storage : storages.values()) {
-      storage.remove(entity);
+      storage.deleteComponent(entity);
     }
   }
 
@@ -118,8 +118,8 @@ class ComponentManager {
 
     List<Entity> entities = new ArrayList<>();
 
-    for (Entity entity : smallest.entities()) {
-      if (hasAll(entity, types)) {
+    for (Entity entity : smallest.getEntities()) {
+      if (hasAllComponent(entity, types)) {
         entities.add(entity);
       }
     }
@@ -127,9 +127,9 @@ class ComponentManager {
     return entities;
   }
 
-  private boolean hasAll(Entity entity, Class<? extends Component>[] types) {
+  private boolean hasAllComponent(Entity entity, Class<? extends Component>[] types) {
     for (Class<? extends Component> type : types) {
-      if (!has(entity, type)) {
+      if (!hasComponent(entity, type)) {
         return false;
       }
     }
