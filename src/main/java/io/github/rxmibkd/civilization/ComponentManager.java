@@ -27,7 +27,6 @@ class ComponentManager {
    * @param entity    the entity receiving the component
    * @param component the component to attach
    * @param <T>       the component type
-   * @throws IllegalArgumentException if the entity index is negative
    */
   @SuppressWarnings("unchecked")
   <T extends Component> void addComponent(Entity entity, T component) {
