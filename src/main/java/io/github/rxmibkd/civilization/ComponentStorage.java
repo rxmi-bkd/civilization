@@ -7,13 +7,13 @@ import java.util.Optional;
 
 /**
  * Stores the components of a single type, using a sparse set.
- *
- * <p>The {@code sparse} list is indexed by entity index and gives the position of the entity's
+ * <br/>
+ * The {@code sparse} list is indexed by entity index and gives the position of the entity's
  * component in the dense lists, or {@link #ABSENT} if there is none. The dense lists are packed and
  * parallel: {@code denseEntities.get(i)} owns {@code denseComponents.get(i)}. This gives O(1)
  * add, get and remove, and iteration over contiguous data.
- *
- * <p>Lookups compare the full {@link Entity}, generation included, so a stale handle never matches
+ * <br/>
+ * Lookups compare the full {@link Entity}, generation included, so a stale handle never matches
  * the component of a later occupant of the same slot.
  *
  * @param <T> the component type held by this storage
@@ -112,8 +112,8 @@ class ComponentStorage<T extends Component> {
 
   /**
    * Returns the entities that have a component in this storage.
-   *
-   * <p>The returned list is a read-only view that reflects later changes to the storage, so copy it
+   * <br/>
+   * The returned list is a read-only view that reflects later changes to the storage, so copy it
    * before adding or removing components while iterating.
    *
    * @return the entities holding a component

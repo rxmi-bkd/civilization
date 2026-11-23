@@ -2,8 +2,8 @@ package io.github.rxmibkd.civilization;
 
 /**
  * Handle identifying an entity in the entity component system.
- *
- * <p>An entity is only an identifier. The {@code index} is the slot the entity occupies, and the
+ * <br/>
+ * An entity is only an identifier. The {@code index} is the slot the entity occupies, and the
  * {@code generation} distinguishes successive occupants of the same slot, so that a stale handle
  * can be detected once its entity has been destroyed and the slot reused.
  *
