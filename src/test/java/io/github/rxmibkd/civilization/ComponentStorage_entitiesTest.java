@@ -20,7 +20,7 @@ class ComponentStorage_entitiesTest {
   @Test
   void shouldReturnEmptyListWhenStorageIsEmpty() {
     // Act
-    List<Entity> result = storage.entities();
+    List<Entity> result = storage.getEntities();
 
     // Assert
     boolean empty = result.isEmpty();
@@ -33,11 +33,11 @@ class ComponentStorage_entitiesTest {
     Entity first = new Entity(0, 0);
     Entity second = new Entity(3, 0);
     HealthComponent health = new HealthComponent(10, 10);
-    storage.add(first, health);
-    storage.add(second, health);
+    storage.addComponent(first, health);
+    storage.addComponent(second, health);
 
     // Act
-    List<Entity> result = storage.entities();
+    List<Entity> result = storage.getEntities();
 
     // Assert
     List<Entity> expected = List.of(first, second);
@@ -50,12 +50,12 @@ class ComponentStorage_entitiesTest {
     Entity first = new Entity(0, 0);
     Entity second = new Entity(1, 0);
     HealthComponent health = new HealthComponent(10, 10);
-    storage.add(first, health);
-    storage.add(second, health);
-    storage.remove(first);
+    storage.addComponent(first, health);
+    storage.addComponent(second, health);
+    storage.deleteComponent(first);
 
     // Act
-    List<Entity> result = storage.entities();
+    List<Entity> result = storage.getEntities();
 
     // Assert
     List<Entity> expected = List.of(second);
@@ -66,7 +66,7 @@ class ComponentStorage_entitiesTest {
   void shouldReturnReadOnlyListWhenCalled() {
     // Arrange
     Entity entity = new Entity(0, 0);
-    List<Entity> result = storage.entities();
+    List<Entity> result = storage.getEntities();
 
     // Act & Assert
     assertThrows(UnsupportedOperationException.class, () -> result.add(entity));

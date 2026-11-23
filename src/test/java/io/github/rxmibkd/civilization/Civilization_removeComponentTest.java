@@ -23,7 +23,7 @@ class Civilization_removeComponentTest {
     civilization.addComponent(entity, health);
 
     // Act
-    civilization.removeComponent(entity, HealthComponent.class);
+    civilization.deleteComponent(entity, HealthComponent.class);
 
     // Assert
     boolean present = civilization.hasComponent(entity, HealthComponent.class);
@@ -38,10 +38,10 @@ class Civilization_removeComponentTest {
     civilization.addComponent(entity, health);
 
     // Act
-    civilization.removeComponent(entity, HealthComponent.class);
+    civilization.deleteComponent(entity, HealthComponent.class);
 
     // Assert
-    boolean alive = civilization.isAlive(entity);
+    boolean alive = civilization.isEntityAlive(entity);
     assertTrue(alive);
   }
 
@@ -51,7 +51,7 @@ class Civilization_removeComponentTest {
     Entity entity = civilization.createEntity();
 
     // Act
-    civilization.removeComponent(entity, HealthComponent.class);
+    civilization.deleteComponent(entity, HealthComponent.class);
 
     // Assert
     boolean present = civilization.hasComponent(entity, HealthComponent.class);

@@ -23,7 +23,7 @@ public class Civilization {
    * @return a handle to the new entity
    */
   public Entity createEntity() {
-    return entityManager.create();
+    return entityManager.createEntity();
   }
 
   /**
@@ -31,10 +31,10 @@ public class Civilization {
    *
    * @param entity the entity to destroy
    */
-  public void destroyEntity(Entity entity) {
-    if (entityManager.isAlive(entity)) {
-      componentManager.removeAll(entity);
-      entityManager.destroy(entity);
+  public void deleteEntity(Entity entity) {
+    if (entityManager.isEntityAlive(entity)) {
+      componentManager.deleteComponents(entity);
+      entityManager.deleteEntity(entity);
     }
   }
 
@@ -44,8 +44,8 @@ public class Civilization {
    * @param entity the handle to check
    * @return {@code true} if the entity has not been destroyed
    */
-  public boolean isAlive(Entity entity) {
-    return entityManager.isAlive(entity);
+  public boolean isEntityAlive(Entity entity) {
+    return entityManager.isEntityAlive(entity);
   }
 
   /**
@@ -57,10 +57,10 @@ public class Civilization {
    * @throws IllegalArgumentException if the entity is not alive
    */
   public <T extends Component> void addComponent(Entity entity, T component) {
-    if (!entityManager.isAlive(entity)) {
+    if (!entityManager.isEntityAlive(entity)) {
       throw new IllegalArgumentException("entity is not alive: " + entity);
     }
-    componentManager.add(entity, component);
+    componentManager.addComponent(entity, component);
   }
 
   /**
@@ -72,7 +72,7 @@ public class Civilization {
    * @return the component, or empty if the entity has none of that type
    */
   public <T extends Component> Optional<T> getComponent(Entity entity, Class<T> type) {
-    return componentManager.get(entity, type);
+    return componentManager.getComponent(entity, type);
   }
 
   /**
@@ -83,7 +83,7 @@ public class Civilization {
    * @return {@code true} if the entity has a component of that type
    */
   public boolean hasComponent(Entity entity, Class<? extends Component> type) {
-    return componentManager.has(entity, type);
+    return componentManager.hasComponent(entity, type);
   }
 
   /**
@@ -92,8 +92,8 @@ public class Civilization {
    * @param entity the entity losing the component
    * @param type   the component type
    */
-  public void removeComponent(Entity entity, Class<? extends Component> type) {
-    componentManager.remove(entity, type);
+  public void deleteComponent(Entity entity, Class<? extends Component> type) {
+    componentManager.deleteComponent(entity, type);
   }
 
   /**

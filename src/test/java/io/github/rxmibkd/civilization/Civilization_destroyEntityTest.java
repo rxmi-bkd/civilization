@@ -21,10 +21,10 @@ class Civilization_destroyEntityTest {
     Entity entity = civilization.createEntity();
 
     // Act
-    civilization.destroyEntity(entity);
+    civilization.deleteEntity(entity);
 
     // Assert
-    boolean alive = civilization.isAlive(entity);
+    boolean alive = civilization.isEntityAlive(entity);
     assertFalse(alive);
   }
 
@@ -36,7 +36,7 @@ class Civilization_destroyEntityTest {
     civilization.addComponent(entity, health);
 
     // Act
-    civilization.destroyEntity(entity);
+    civilization.deleteEntity(entity);
 
     // Assert
     boolean present = civilization.hasComponent(entity, HealthComponent.class);
@@ -49,7 +49,7 @@ class Civilization_destroyEntityTest {
     Entity old = civilization.createEntity();
     HealthComponent health = new HealthComponent(10, 10);
     civilization.addComponent(old, health);
-    civilization.destroyEntity(old);
+    civilization.deleteEntity(old);
 
     // Act
     Entity reused = civilization.createEntity();
@@ -69,7 +69,7 @@ class Civilization_destroyEntityTest {
     civilization.addComponent(other, health);
 
     // Act
-    civilization.destroyEntity(destroyed);
+    civilization.deleteEntity(destroyed);
 
     // Assert
     boolean present = civilization.hasComponent(other, HealthComponent.class);
@@ -80,16 +80,16 @@ class Civilization_destroyEntityTest {
   void shouldKeepCurrentOccupantWhenStaleHandleIsDestroyed() {
     // Arrange
     Entity old = civilization.createEntity();
-    civilization.destroyEntity(old);
+    civilization.deleteEntity(old);
     Entity current = civilization.createEntity();
     HealthComponent health = new HealthComponent(10, 10);
     civilization.addComponent(current, health);
 
     // Act
-    civilization.destroyEntity(old);
+    civilization.deleteEntity(old);
 
     // Assert
-    boolean alive = civilization.isAlive(current);
+    boolean alive = civilization.isEntityAlive(current);
     boolean present = civilization.hasComponent(current, HealthComponent.class);
     assertTrue(alive);
     assertTrue(present);

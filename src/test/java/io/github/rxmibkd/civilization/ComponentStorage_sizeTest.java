@@ -29,8 +29,8 @@ class ComponentStorage_sizeTest {
     Entity first = new Entity(0, 0);
     Entity second = new Entity(1, 0);
     HealthComponent health = new HealthComponent(10, 10);
-    storage.add(first, health);
-    storage.add(second, health);
+    storage.addComponent(first, health);
+    storage.addComponent(second, health);
 
     // Act
     int size = storage.size();
