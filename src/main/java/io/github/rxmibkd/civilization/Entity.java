@@ -9,10 +9,14 @@ package io.github.rxmibkd.civilization;
  *
  * @param index      slot position of the entity
  * @param generation generation of the slot when the entity was created
- * @throws IllegalArgumentException if the index or the generation is negative
  */
 public record Entity(int index, int generation) {
 
+  /**
+   * Creates an entity handle.
+   *
+   * @throws IllegalArgumentException if the index or the generation is negative
+   */
   public Entity {
     if (index < 0) {
       throw new IllegalArgumentException("index must not be negative: " + index);
