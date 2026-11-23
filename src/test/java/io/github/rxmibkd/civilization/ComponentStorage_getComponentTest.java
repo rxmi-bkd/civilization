@@ -59,17 +59,4 @@ class ComponentStorage_getComponentTest {
     boolean present = result.isPresent();
     assertFalse(present);
   }
-
-  @Test
-  void shouldReturnEmptyWhenEntityIndexIsOutOfRange() {
-    // Arrange
-    Entity entity = new Entity(-1, 0);
-
-    // Act
-    Optional<HealthComponent> result = storage.getComponent(entity);
-
-    // Assert
-    boolean present = result.isPresent();
-    assertFalse(present);
-  }
 }

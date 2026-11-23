@@ -1,6 +1,7 @@
 package io.github.rxmibkd.civilization;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,5 +30,13 @@ class Civilization_addSystemTest {
     civilization.update(1.0);
     List<String> expected = List.of("system");
     assertEquals(expected, calls);
+  }
+
+  @Test
+  void shouldThrowWhenSystemIsNull() {
+    // Arrange
+
+    // Act & Assert
+    assertThrows(NullPointerException.class, () -> civilization.addSystem(null));
   }
 }

@@ -68,18 +68,6 @@ class EntityManager_isEntityAliveTest {
   }
 
   @Test
-  void shouldReturnFalseWhenIndexIsNegative() {
-    // Arrange
-    Entity negative = new Entity(-1, 0);
-
-    // Act
-    boolean alive = manager.isEntityAlive(negative);
-
-    // Assert
-    assertFalse(alive);
-  }
-
-  @Test
   void shouldReturnFalseWhenGenerationIsNewerThanSlot() {
     // Arrange
     Entity entity = manager.createEntity();

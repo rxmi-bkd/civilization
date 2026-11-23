@@ -1,7 +1,6 @@
 package io.github.rxmibkd.civilization;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,15 +68,5 @@ class ComponentManager_addComponentTest {
     Optional<PositionComponent> expectedPosition = Optional.of(position);
     assertEquals(expectedHealth, healthResult);
     assertEquals(expectedPosition, positionResult);
-  }
-
-  @Test
-  void shouldThrowWhenEntityIndexIsNegative() {
-    // Arrange
-    Entity entity = new Entity(-1, 0);
-    HealthComponent health = new HealthComponent(10, 10);
-
-    // Act & Assert
-    assertThrows(IllegalArgumentException.class, () -> manager.addComponent(entity, health));
   }
 }

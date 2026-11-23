@@ -51,4 +51,22 @@ class Civilization_addComponentTest {
     // Act & Assert
     assertThrows(IllegalArgumentException.class, () -> civilization.addComponent(entity, health));
   }
+
+  @Test
+  void shouldThrowWhenEntityIsNull() {
+    // Arrange
+    HealthComponent health = new HealthComponent(10, 10);
+
+    // Act & Assert
+    assertThrows(NullPointerException.class, () -> civilization.addComponent(null, health));
+  }
+
+  @Test
+  void shouldThrowWhenComponentIsNull() {
+    // Arrange
+    Entity entity = civilization.createEntity();
+
+    // Act & Assert
+    assertThrows(NullPointerException.class, () -> civilization.addComponent(entity, null));
+  }
 }

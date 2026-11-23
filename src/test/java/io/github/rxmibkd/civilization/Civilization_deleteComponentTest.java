@@ -1,6 +1,7 @@
 package io.github.rxmibkd.civilization;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -56,5 +57,22 @@ class Civilization_deleteComponentTest {
     // Assert
     boolean present = civilization.hasComponent(entity, HealthComponent.class);
     assertFalse(present);
+  }
+
+  @Test
+  void shouldThrowWhenEntityIsNull() {
+    // Arrange
+
+    // Act & Assert
+    assertThrows(NullPointerException.class, () -> civilization.deleteComponent(null, HealthComponent.class));
+  }
+
+  @Test
+  void shouldThrowWhenTypeIsNull() {
+    // Arrange
+    Entity entity = civilization.createEntity();
+
+    // Act & Assert
+    assertThrows(NullPointerException.class, () -> civilization.deleteComponent(entity, null));
   }
 }
