@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class EntityManager_createTest {
+class EntityManager_createEntityTest {
 
   private EntityManager manager;
 
