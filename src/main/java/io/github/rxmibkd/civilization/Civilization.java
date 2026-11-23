@@ -14,6 +14,15 @@ import java.util.Optional;
  */
 public class Civilization {
 
+  private static final String ENTITY_NULL_MESSAGE = "entity must not be null";
+  private static final String COMPONENT_NULL_MESSAGE = "component must not be null";
+  private static final String TYPE_NULL_MESSAGE = "type must not be null";
+  private static final String TYPES_NULL_MESSAGE = "types must not be null";
+  private static final String TYPES_CONTAIN_NULL_MESSAGE = "types must not contain null";
+  private static final String SYSTEM_NULL_MESSAGE = "system must not be null";
+  private static final String ENTITY_NOT_ALIVE_MESSAGE = "entity is not alive: ";
+  private static final String INVALID_DELTA_TIME_MESSAGE = "deltaTime must be finite and not negative: ";
+
   private final EntityManager entityManager = new EntityManager();
   private final ComponentManager componentManager = new ComponentManager();
   private final List<GameSystem> systems = new ArrayList<>();
@@ -34,7 +43,7 @@ public class Civilization {
    * @throws NullPointerException if the entity is null
    */
   public void deleteEntity(Entity entity) {
-    Objects.requireNonNull(entity, "entity must not be null");
+    Objects.requireNonNull(entity, ENTITY_NULL_MESSAGE);
     if (entityManager.isEntityAlive(entity)) {
       componentManager.deleteComponents(entity);
       entityManager.deleteEntity(entity);
@@ -49,7 +58,7 @@ public class Civilization {
    * @throws NullPointerException if the entity is null
    */
   public boolean isEntityAlive(Entity entity) {
-    Objects.requireNonNull(entity, "entity must not be null");
+    Objects.requireNonNull(entity, ENTITY_NULL_MESSAGE);
     return entityManager.isEntityAlive(entity);
   }
 
@@ -63,10 +72,10 @@ public class Civilization {
    * @throws IllegalArgumentException if the entity is not alive
    */
   public <T extends Component> void addComponent(Entity entity, T component) {
-    Objects.requireNonNull(entity, "entity must not be null");
-    Objects.requireNonNull(component, "component must not be null");
+    Objects.requireNonNull(entity, ENTITY_NULL_MESSAGE);
+    Objects.requireNonNull(component, COMPONENT_NULL_MESSAGE);
     if (!entityManager.isEntityAlive(entity)) {
-      throw new IllegalArgumentException("entity is not alive: " + entity);
+      throw new IllegalArgumentException(ENTITY_NOT_ALIVE_MESSAGE + entity);
     }
     componentManager.addComponent(entity, component);
   }
@@ -81,8 +90,8 @@ public class Civilization {
    * @throws NullPointerException if the entity or the type is null
    */
   public <T extends Component> Optional<T> getComponent(Entity entity, Class<T> type) {
-    Objects.requireNonNull(entity, "entity must not be null");
-    Objects.requireNonNull(type, "type must not be null");
+    Objects.requireNonNull(entity, ENTITY_NULL_MESSAGE);
+    Objects.requireNonNull(type, TYPE_NULL_MESSAGE);
     return componentManager.getComponent(entity, type);
   }
 
@@ -95,8 +104,8 @@ public class Civilization {
    * @throws NullPointerException if the entity or the type is null
    */
   public boolean hasComponent(Entity entity, Class<? extends Component> type) {
-    Objects.requireNonNull(entity, "entity must not be null");
-    Objects.requireNonNull(type, "type must not be null");
+    Objects.requireNonNull(entity, ENTITY_NULL_MESSAGE);
+    Objects.requireNonNull(type, TYPE_NULL_MESSAGE);
     return componentManager.hasComponent(entity, type);
   }
 
@@ -108,8 +117,8 @@ public class Civilization {
    * @throws NullPointerException if the entity or the type is null
    */
   public void deleteComponent(Entity entity, Class<? extends Component> type) {
-    Objects.requireNonNull(entity, "entity must not be null");
-    Objects.requireNonNull(type, "type must not be null");
+    Objects.requireNonNull(entity, ENTITY_NULL_MESSAGE);
+    Objects.requireNonNull(type, TYPE_NULL_MESSAGE);
     componentManager.deleteComponent(entity, type);
   }
 
@@ -126,9 +135,9 @@ public class Civilization {
    */
   @SafeVarargs
   public final List<Entity> query(Class<? extends Component>... types) {
-    Objects.requireNonNull(types, "types must not be null");
+    Objects.requireNonNull(types, TYPES_NULL_MESSAGE);
     for (Class<? extends Component> type : types) {
-      Objects.requireNonNull(type, "types must not contain null");
+      Objects.requireNonNull(type, TYPES_CONTAIN_NULL_MESSAGE);
     }
     return componentManager.query(types);
   }
@@ -140,7 +149,7 @@ public class Civilization {
    * @throws NullPointerException if the system is null
    */
   public void addSystem(GameSystem system) {
-    Objects.requireNonNull(system, "system must not be null");
+    Objects.requireNonNull(system, SYSTEM_NULL_MESSAGE);
     systems.add(system);
   }
 
@@ -151,7 +160,7 @@ public class Civilization {
    * @throws NullPointerException if the system is null
    */
   public void removeSystem(GameSystem system) {
-    Objects.requireNonNull(system, "system must not be null");
+    Objects.requireNonNull(system, SYSTEM_NULL_MESSAGE);
     systems.remove(system);
   }
 
@@ -163,7 +172,7 @@ public class Civilization {
    */
   public void update(double deltaTime) {
     if (Double.isNaN(deltaTime) || Double.isInfinite(deltaTime) || deltaTime < 0) {
-      throw new IllegalArgumentException("deltaTime must be finite and not negative: " + deltaTime);
+      throw new IllegalArgumentException(INVALID_DELTA_TIME_MESSAGE + deltaTime);
     }
     for (GameSystem system : List.copyOf(systems)) {
       system.update(this, deltaTime);
