@@ -1,6 +1,7 @@
 package io.github.rxmibkd.civilization;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -46,5 +47,21 @@ class Civilization_queryTest {
     // Assert
     boolean empty = result.isEmpty();
     assertTrue(empty);
+  }
+
+  @Test
+  void shouldThrowWhenTypesArrayIsNull() {
+    // Arrange
+
+    // Act & Assert
+    assertThrows(NullPointerException.class, () -> civilization.query((Class<? extends Component>[]) null));
+  }
+
+  @Test
+  void shouldThrowWhenATypeIsNull() {
+    // Arrange
+
+    // Act & Assert
+    assertThrows(NullPointerException.class, () -> civilization.query(HealthComponent.class, null));
   }
 }

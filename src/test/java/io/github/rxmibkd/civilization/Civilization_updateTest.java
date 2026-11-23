@@ -2,6 +2,7 @@ package io.github.rxmibkd.civilization;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -116,5 +117,55 @@ class Civilization_updateTest {
     // Assert
     boolean alive = civilization.isEntityAlive(entity);
     assertTrue(alive);
+  }
+
+  @Test
+  void shouldThrowWhenDeltaTimeIsNaN() {
+    // Arrange
+    List<String> calls = new ArrayList<>();
+    civilization.addSystem((w, deltaTime) -> calls.add("system"));
+
+    // Act & Assert
+    assertThrows(IllegalArgumentException.class, () -> civilization.update(Double.NaN));
+    boolean noneRan = calls.isEmpty();
+    assertTrue(noneRan);
+  }
+
+  @Test
+  void shouldThrowWhenDeltaTimeIsInfinite() {
+    // Arrange
+    List<String> calls = new ArrayList<>();
+    civilization.addSystem((w, deltaTime) -> calls.add("system"));
+
+    // Act & Assert
+    assertThrows(IllegalArgumentException.class, () -> civilization.update(Double.POSITIVE_INFINITY));
+    boolean noneRan = calls.isEmpty();
+    assertTrue(noneRan);
+  }
+
+  @Test
+  void shouldThrowWhenDeltaTimeIsNegative() {
+    // Arrange
+    List<String> calls = new ArrayList<>();
+    civilization.addSystem((w, deltaTime) -> calls.add("system"));
+
+    // Act & Assert
+    assertThrows(IllegalArgumentException.class, () -> civilization.update(-0.1));
+    boolean noneRan = calls.isEmpty();
+    assertTrue(noneRan);
+  }
+
+  @Test
+  void shouldRunSystemsWhenDeltaTimeIsZero() {
+    // Arrange
+    List<String> calls = new ArrayList<>();
+    civilization.addSystem((w, deltaTime) -> calls.add("system"));
+
+    // Act
+    civilization.update(0.0);
+
+    // Assert
+    List<String> expected = List.of("system");
+    assertEquals(expected, calls);
   }
 }
